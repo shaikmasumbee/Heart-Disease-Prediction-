@@ -1,0 +1,36 @@
+2026-09-25 18:05:59,902 - INFO - The Number of rows and columns was : (303, 14)
+2026-09-25 18:05:59,904 - INFO - Null values in the dataset : age         0
+sex         0
+cp          0
+trestbps    0
+chol        0
+fbs         0
+restecg     0
+thalach     0
+exang       0
+oldpeak     0
+slope       0
+ca          0
+thal        0
+target      0
+dtype: int64
+2026-09-25 18:05:59,904 - INFO - Independent columns : ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
+2026-09-25 18:05:59,904 - INFO - Dependent column : target
+2026-09-25 18:05:59,924 - INFO - Training dataset size : (242, 13) => (242,)
+2026-09-25 18:05:59,925 - INFO - Testing dataset size : (61, 13) => (61,)
+2026-09-25 18:05:59,925 - INFO - Train Numerical columns : (242, 13) : ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
+2026-09-25 18:05:59,925 - INFO - Test Numerical columns : (61, 13) : ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
+2026-09-25 18:06:00,097 - INFO - Yeo-Johnson transformation completed
+2026-09-25 18:06:00,099 - INFO - Feature selection completed : (242, 13)
+2026-09-25 18:06:00,099 - INFO - Final Training Data : (242, 13)
+2026-09-25 18:06:00,099 - INFO - Final Testing Data : (61, 13)
+2026-09-25 18:06:00,099 - INFO - Total Final Training data shape : (242,)
+2026-09-25 18:06:00,100 - INFO - Number of Rows for Target : 0 : Class : 110
+2026-09-25 18:06:00,100 - INFO - Number of Rows for Target : 1 : Class : 132
+2026-09-25 18:06:00,104 - INFO - After Balancing Training data shape : (264,)
+2026-09-25 18:06:00,105 - INFO - Number of Rows for Target : 0 : Class : 132
+2026-09-25 18:06:00,105 - INFO - Number of Rows for Target : 1 : Class : 132
+2026-09-25 18:06:00,107 - INFO - Scaler saved as scaled_model.pkl
+2026-09-25 18:06:00,108 - INFO - Standard scaling completed
+2026-09-25 18:06:03,648 - INFO - All models training completed
+2026-09-25 18:06:03,648 - INFO - Heart Disease ML Pipeline completed successfully

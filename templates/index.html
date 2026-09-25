@@ -1,0 +1,966 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Heart Disease Prediction</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #1f2937;
+
+            background:
+                radial-gradient(circle at top left, #fda4af 0%, transparent 30%),
+                radial-gradient(circle at top right, #c4b5fd 0%, transparent 30%),
+                radial-gradient(circle at bottom left, #93c5fd 0%, transparent 30%),
+                linear-gradient(135deg, #fff1f2, #eef2ff, #f0fdf4);
+        }
+
+
+        /* Main Container */
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+
+            background: rgba(255, 255, 255, 0.88);
+
+            border: 1px solid rgba(255, 255, 255, 0.8);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 25px 60px rgba(31, 41, 55, 0.18),
+                0 0 0 1px rgba(255, 255, 255, 0.5);
+
+            overflow: hidden;
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        /* Header */
+
+        .header {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #be123c,
+                    #e11d48,
+                    #9333ea,
+                    #4f46e5
+                );
+
+            color: white;
+            text-align: center;
+
+            padding: 42px 20px 38px;
+
+            overflow: hidden;
+        }
+
+
+        .header::before {
+            content: "";
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border-radius: 50%;
+
+            top: -110px;
+            left: -70px;
+        }
+
+
+        .header::after {
+            content: "";
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border-radius: 50%;
+
+            bottom: -170px;
+            right: -80px;
+        }
+
+
+        .heart-icon {
+            position: relative;
+            z-index: 2;
+
+            width: 82px;
+            height: 82px;
+
+            margin: auto;
+            margin-bottom: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 42px;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            border: 2px solid rgba(255, 255, 255, 0.35);
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.18),
+                0 0 25px rgba(255, 255, 255, 0.18);
+        }
+
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+
+            font-size: 34px;
+            margin-bottom: 10px;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .header p {
+            position: relative;
+            z-index: 2;
+
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+
+        /* Small Header Badge */
+
+        .badge {
+            position: relative;
+            z-index: 2;
+
+            display: inline-block;
+
+            margin-top: 18px;
+
+            padding: 7px 16px;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.3);
+
+            font-size: 12px;
+            font-weight: 600;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        /* Main Content */
+
+        .content {
+            padding: 40px;
+        }
+
+
+        /* Section Heading */
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+
+        .section-title h2 {
+            display: inline-block;
+
+            color: #7c2d12;
+
+            font-size: 25px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .section-title h2::after {
+            content: "";
+
+            display: block;
+
+            width: 55px;
+            height: 4px;
+
+            margin: 8px auto 0;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #e11d48,
+                    #9333ea
+                );
+        }
+
+
+        .section-title p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* Form */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 22px;
+        }
+
+
+        .form-group {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 17px;
+
+            border-radius: 16px;
+
+            background: linear-gradient(
+                145deg,
+                #ffffff,
+                #f9fafb
+            );
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+
+            transition: 0.3s;
+        }
+
+
+        .form-group:hover {
+            transform: translateY(-3px);
+
+            border-color: #fda4af;
+
+            box-shadow:
+                0 10px 25px rgba(225, 29, 72, 0.10);
+        }
+
+
+        label {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+            margin-bottom: 9px;
+        }
+
+
+        .feature-name {
+            color: #e11d48;
+
+            font-size: 11px;
+
+            margin-left: 4px;
+
+            font-weight: 600;
+        }
+
+
+        /* Inputs */
+
+        input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1.5px solid #d1d5db;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: #f9fafb;
+
+            transition: 0.25s;
+        }
+
+
+        input:focus {
+            border-color: #e11d48;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(225, 29, 72, 0.10);
+        }
+
+
+        input:hover {
+            border-color: #fb7185;
+        }
+
+
+        input::placeholder {
+            color: #9ca3af;
+        }
+
+
+        /* Predict Button */
+
+        .button-container {
+            text-align: center;
+
+            margin-top: 38px;
+        }
+
+
+        .predict-btn {
+            border: none;
+
+            padding: 16px 60px;
+
+            border-radius: 35px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e11d48,
+                    #9333ea,
+                    #4f46e5
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(147, 51, 234, 0.25);
+
+            transition: 0.3s;
+        }
+
+
+        .predict-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+
+            box-shadow:
+                0 15px 35px rgba(147, 51, 234, 0.35);
+        }
+
+
+        .predict-btn:active {
+            transform: scale(0.97);
+        }
+
+
+        /* Result */
+
+        .result {
+            margin-top: 30px;
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ecfdf5,
+                    #f0fdf4
+                );
+
+            border: 1px solid #86efac;
+
+            color: #166534;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 20px rgba(22, 101, 52, 0.08);
+        }
+
+
+        /* Footer */
+
+        .footer {
+            position: relative;
+
+            text-align: center;
+
+            padding: 28px 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #312e81,
+                    #581c87
+                );
+
+            color: white;
+
+            overflow: hidden;
+        }
+
+
+        .footer::before {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.06);
+
+            top: -100px;
+            left: -50px;
+        }
+
+
+        .footer h3 {
+            position: relative;
+
+            color: #fda4af;
+
+            font-size: 17px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .footer p {
+            position: relative;
+
+            font-size: 13px;
+
+            color: #d1d5db;
+
+            margin-top: 4px;
+        }
+
+
+        .footer .project-name {
+            color: #f9a8d4;
+
+            font-weight: 700;
+        }
+
+
+        .footer .institute {
+            color: #c4b5fd;
+
+            font-weight: 600;
+
+            margin-top: 8px;
+        }
+
+
+        .footer .divider {
+            width: 70px;
+
+            height: 3px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #fb7185,
+                    #a78bfa
+                );
+
+            margin: 12px auto;
+
+            border-radius: 10px;
+        }
+
+
+        /* Responsive */
+
+        @media (max-width: 850px) {
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px 8px;
+            }
+
+
+            .header {
+                padding: 32px 15px;
+            }
+
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+
+            .header p {
+                font-size: 13px;
+            }
+
+
+            .content {
+                padding: 24px 18px;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .predict-btn {
+                width: 100%;
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="heart-icon">
+            ❤️
+        </div>
+
+        <h1>
+            Heart Disease Prediction
+        </h1>
+
+        <p>
+            Machine Learning Based Health Risk Prediction System
+        </p>
+
+        <div class="badge">
+            AI • MACHINE LEARNING • HEALTH ANALYTICS
+        </div>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="content">
+
+
+        <div class="section-title">
+
+            <h2>
+                Patient Information
+            </h2>
+
+            <p>
+                Enter the required medical information to generate a prediction.
+            </p>
+
+        </div>
+
+
+        <form method="POST">
+
+
+            <div class="form-grid">
+
+
+                <!-- AGE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Age
+                        <span class="feature-name">(age)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="age"
+                        placeholder="Enter age"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SEX -->
+
+                <div class="form-group">
+
+                    <label>
+                        Sex
+                        <span class="feature-name">(sex)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="sex"
+                        placeholder="0 or 1"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CHEST PAIN -->
+
+                <div class="form-group">
+
+                    <label>
+                        Chest Pain Type
+                        <span class="feature-name">(cp)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="cp"
+                        placeholder="Enter cp value"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BLOOD PRESSURE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Resting Blood Pressure
+                        <span class="feature-name">(trestbps)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="trestbps"
+                        placeholder="e.g. 120"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CHOLESTEROL -->
+
+                <div class="form-group">
+
+                    <label>
+                        Cholesterol
+                        <span class="feature-name">(chol)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="chol"
+                        placeholder="e.g. 200"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- FASTING BLOOD SUGAR -->
+
+                <div class="form-group">
+
+                    <label>
+                        Fasting Blood Sugar
+                        <span class="feature-name">(fbs)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="fbs"
+                        placeholder="0 or 1"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- RESTING ECG -->
+
+                <div class="form-group">
+
+                    <label>
+                        Resting ECG
+                        <span class="feature-name">(restecg)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="restecg"
+                        placeholder="Enter value"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- MAXIMUM HEART RATE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Maximum Heart Rate
+                        <span class="feature-name">(thalach)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="thalach"
+                        placeholder="e.g. 150"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EXERCISE ANGINA -->
+
+                <div class="form-group">
+
+                    <label>
+                        Exercise Induced Angina
+                        <span class="feature-name">(exang)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="exang"
+                        placeholder="0 or 1"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- OLDPEAK -->
+
+                <div class="form-group">
+
+                    <label>
+                        ST Depression
+                        <span class="feature-name">(oldpeak)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="oldpeak"
+                        placeholder="e.g. 1.5"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- SLOPE -->
+
+                <div class="form-group">
+
+                    <label>
+                        ST Slope
+                        <span class="feature-name">(slope)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="slope"
+                        placeholder="Enter value"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- MAJOR VESSELS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Major Vessels
+                        <span class="feature-name">(ca)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="ca"
+                        placeholder="Enter value"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- THALASSEMIA -->
+
+                <div class="form-group">
+
+                    <label>
+                        Thalassemia
+                        <span class="feature-name">(thal)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="thal"
+                        placeholder="Enter value"
+                        step="any"
+                        required
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <!-- PREDICT BUTTON -->
+
+            <div class="button-container">
+
+                <button
+                    type="submit"
+                    class="predict-btn"
+                >
+                    🔍 &nbsp; Predict
+                </button>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            {% if prediction %}
+
+            <div class="result">
+
+                ❤️ Prediction Result:
+                {{ prediction }}
+
+            </div>
+
+            {% endif %}
+
+
+        </form>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <h3>
+            Heart Disease Prediction System
+        </h3>
+
+        <p>
+            Machine Learning Project
+        </p>
+
+        <div class="divider"></div>
+
+        <p>
+            Project by
+            <span class="project-name">
+                Shaik Masumbee
+            </span>
+        </p>
+
+        <p>
+            Guidance - Kamal Sir
+        </p>
+
+        <p class="institute">
+            ViharaTech Institute
+        </p>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+```
+
